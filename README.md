@@ -1,10 +1,10 @@
 
 ## 更新
-- 每个账户只能连接 10 个代理。
+- 每个账户只能连接 3 个代理。
 - 目前最好的操作方式是创建多个账户。
 - 脚本支持多账户操作，只需将 `np_tokens.txt` 文件中的每一行填入一个账户的 token。
 - 确保你的账户获得 **Proof of Humanhood** 徽章。
-- 在这里注册：[https://app.nodepay.ai/](https://app.nodepay.ai/register?ref=Od15EPpf6UBd5qR)
+- 在这里注册：[https://app.nodepay.ai/](https://app.nodepay.ai)
 
 ![image](https://github.com/user-attachments/assets/6b77e7e9-7fcc-4de0-b026-ca3d1a40146e)
 
@@ -26,4 +26,6 @@ cd nodepay
 ```bash
 pip install -r requirements.txt
 
-- **运行脚本**：`python3 main.py` 命令将运行 `main.py` 脚本。
+## 3.运行脚本
+```bash
+python3 main.py
