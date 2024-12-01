@@ -18,7 +18,7 @@
 
 ## 1. 运行代码的步骤
 ```bash
-git clone https://github.com/Zlkcyber/nodepay.git
+git clone https://github.com/Horizen5/Nodepay.git
 cd nodepay
 ```
 
