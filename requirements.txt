@@ -5,3 +5,4 @@ cloudscraper
 loguru
 colorama
 curl-cffi
+fake_useragent
