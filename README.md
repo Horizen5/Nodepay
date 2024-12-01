@@ -26,6 +26,7 @@ cd nodepay
 ```bash
 pip install -r requirements.txt
 
-## 3.运行脚本
+## 3. 运行脚本
 ```bash
 python3 main.py
+
