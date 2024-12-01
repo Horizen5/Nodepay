@@ -19,7 +19,7 @@
 ## 1. 运行代码的步骤
 ```bash
 git clone https://github.com/Horizen5/Nodepay.git
-cd nodepay
+cd Nodepay
 ```
 
 ## 2.创建虚拟环境
