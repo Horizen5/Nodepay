@@ -25,7 +25,7 @@ cd nodepay
 ## 2. 安装依赖
 ```bash
 pip install -r requirements.txt
-
+```
 ## 3. 运行脚本
 ```bash
 python3 main.py
