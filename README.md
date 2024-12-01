@@ -22,11 +22,18 @@ git clone https://github.com/Horizen5/Nodepay.git
 cd nodepay
 ```
 
-## 2. 安装依赖
+## 2.创建虚拟环境
+```bash
+python3 -m venv venv
+cd venv/bin
+source activate
+cd ../..
+```
+## 3. 安装依赖
 ```bash
 pip install -r requirements.txt
 ```
-## 3. 运行脚本
+## 4. 运行脚本
 ```bash
 python3 main.py
 
