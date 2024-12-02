@@ -44,9 +44,11 @@ pip install -r requirements.txt
 windows
 ```bash
 python main.py
+```
 linux
 ```bash
 python3 main.py
+```
 
 
 
