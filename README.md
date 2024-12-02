@@ -23,6 +23,13 @@ cd Nodepay
 ```
 
 ## 2.创建虚拟环境
+windows
+```bash
+python -m venv env
+.\env\Scripts\activate
+
+```
+linux
 ```bash
 python3 -m venv venv
 cd venv/bin
