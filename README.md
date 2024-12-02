@@ -41,6 +41,12 @@ cd ../..
 pip install -r requirements.txt
 ```
 ## 4. 运行脚本
+windows
+```bash
+python main.py
+linux
 ```bash
 python3 main.py
+
+
 
