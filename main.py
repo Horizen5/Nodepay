@@ -36,11 +36,14 @@ def show_warning():
         exit()
 
 def display_menu():
-    # 显示启动节点选项并等待用户按下回车键
-    print(f"\n{Fore.GREEN}启动节点{Style.RESET_ALL}")
-    input(f"{Fore.CYAN}按回车键继续启动节点...{Style.RESET_ALL}")
-    return "1"  # 按下回车后返回 "1" 以进入启动节点选项
+    print(f"\n请选择一个选项:")
+    print(f"{Fore.GREEN}1. 启动节点{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}2. 注册账户{Style.RESET_ALL}")
+    choice = input(f"{Fore.CYAN}输入选项编号: {Style.RESET_ALL}")
+    return choice
 
+def register_accounts():
+    print(f"{Fore.MAGENTA}注册账户功能尚未实现。{Style.RESET_ALL}")
 
 # 常量
 PING_INTERVAL = 60
