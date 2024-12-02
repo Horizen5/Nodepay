@@ -27,8 +27,8 @@ def clear_screen():
         print("\n" * 100)  # Fallback: Print 100 new lines
 
 def show_warning():
-    confirm = input(f"{Fore.YELLOW}多账户NODEPAY机器人 \n\n请确保您有:\n1. 包含您Nodepay令牌的token.txt文件（每行一个）\n2. 包含您的代理列表的proxy.txt文件\n注意：每个令牌最多将获得3个代理\n\n按Enter键继续或按Ctrl+C取消... {Style.RESET_ALL}")
-
+    confirm = input(f"{Fore.YELLOW}多账户NODEPAY机器人 \n\n请确保您有:\n1. 包含您Nodepay令牌的token.txt文件（每行一个）\n2. 包含您的代理列表的proxy.txt文件\n注意：每个令牌最多将获得一个代理\n\n按Enter键继续或按Ctrl+C取消... {Style.RESET_ALL}")
+    
     if confirm.strip() == "":
         print(f"{Fore.GREEN}继续...{Style.RESET_ALL}")
     else:
@@ -215,8 +215,12 @@ async def main():
     all_proxies = load_proxies('proxy.txt')  # 从文件中加载代理
     all_tokens = load_tokens('token.txt')  # 从令牌列表中加载令牌
 
-    if not all_tokens:
-        print(f"{Fore.RED}在token.txt中未找到令牌。程序退出。{Style.RESET_ALL}")
+    if not all_tokens or not all_proxies:
+        print(f"{Fore.RED}未找到令牌或代理。程序退出。{Style.RESET_ALL}")
+        exit()
+
+    if len(all_tokens) != len(all_proxies):
+        print(f"{Fore.RED}令牌和代理数量不匹配！程序退出。{Style.RESET_ALL}")
         exit()
 
     while True:
@@ -224,33 +228,12 @@ async def main():
         
         if choice == "1":
             print(f"{Fore.GREEN}启动节点...{Style.RESET_ALL}")
-            while True:
-                for token in all_tokens:
-                    active_proxies = [
-                        proxy for proxy in all_proxies if is_valid_proxy(proxy)][:100]
-                    tasks = {asyncio.create_task(render_profile_info(
-                        proxy, token)): proxy for proxy in active_proxies}
+            tasks = []
+            for token, proxy in zip(all_tokens, all_proxies):
+                task = asyncio.create_task(render_profile_info(proxy, token))
+                tasks.append(task)
 
-                    done, pending = await asyncio.wait(tasks.keys(), return_when=asyncio.FIRST_COMPLETED)
-                    for task in done:
-                        failed_proxy = tasks[task]
-                        if task.result() is None:
-                            active_proxies.remove(failed_proxy)
-                            if all_proxies:
-                                new_proxy = all_proxies.pop(0)
-                                if is_valid_proxy(new_proxy):
-                                    active_proxies.append(new_proxy)
-                                    new_task = asyncio.create_task(
-                                        render_profile_info(new_proxy, token))
-                                    tasks[new_task] = new_proxy
-                    tasks.pop(task)
-
-                    for proxy in set(active_proxies) - set(tasks.values()):
-                        new_task = asyncio.create_task(
-                            render_profile_info(proxy, token))
-                        tasks[new_task] = proxy
-                    await asyncio.sleep(3)
-                await asyncio.sleep(10)
+            await asyncio.gather(*tasks)  # 并发执行多个任务
         elif choice == "2":
             register_accounts()
         else:
