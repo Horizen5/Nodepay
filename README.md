@@ -15,7 +15,7 @@ python cek.py
 
 # 使用方法
 ```
-git clone https://github.com/AirdropFamilyIDN-V2-0/nodepay.git
+git clone https://github.com/Horizen5/nodepay.git
 ```
 ```
 cd nodepay
