@@ -14,6 +14,10 @@ python cek.py
 - https://app.nodepay.ai/register?ref=55vzBVxmyYouwN2
 
 # 使用方法
+获取token
+```
+localStorage.getItem('np_token');
+```
 ```
 git clone https://github.com/Horizen5/nodepay.git
 ```
