@@ -18,21 +18,35 @@ python cek.py
 ```
 localStorage.getItem('np_token');
 ```
+克隆地址
 ```
 git clone https://github.com/Horizen5/nodepay.git
 ```
+进入文件目录
 ```
 cd nodepay
 ```
+安装依赖
 ```
 pip install -r requirements.txt
 ```
+windows运行命令
 ```
 python run.py
 ```
-Linux
+Linux运行命令
 ```
 python3 run.py
+```
+
+查看账号运行情况
+windows
+```
+python cek.py
+```
+linux
+```
+python3 cek.py
 ```
 
 # 在 tokens.txt 中填入你的 Nodepay 令牌
