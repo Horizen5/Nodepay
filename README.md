@@ -1,4 +1,4 @@
-# NODEPAY 自动挖矿机器人
+# Nodepay 自动挖矿机器人
 ![image](https://github.com/user-attachments/assets/a72d3950-148f-4981-ba92-b1a9c2206d8d)
 - 支持多账号
 - 修复错误
