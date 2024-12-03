@@ -99,15 +99,21 @@ scraper = cloudscraper.create_scraper(
     }
 )
 
-async def load_tokens():
-    """从文件加载账户令牌"""
+async def load_tokens_and_proxies():
+    """加载token和对应的代理"""
     try:
-        with open('tokens.txt', 'r') as file:
-            tokens = file.read().splitlines()
-        return tokens
+        token_proxy_map = {}
+        with open('proxies.txt', 'r') as file:
+            for line in file:
+                parts = line.strip().split(',')
+                if len(parts) >= 4:  # token + 3个IP
+                    token = parts[0]
+                    proxies = parts[1:4]  # 只取3个IP
+                    token_proxy_map[token] = proxies
+        return token_proxy_map
     except Exception as e:
-        logger.error(f"加载令牌失败: {e}")
-        raise SystemExit("由于加载令牌失败而退出")
+        logger.error(f"加载token和代理配置失败: {e}")
+        raise SystemExit("由于加载配置失败而退出")
 
 async def call_api(url, data, account_info, proxy):
     """调用API接口"""
@@ -195,20 +201,14 @@ def process_account(token, proxies):
 async def main():
     """主函数"""
     letsStart()  # 启动保活机制
-    tokens = await load_tokens()
-
-    # 加载代理列表
-    try:
-        with open('local_proxies.txt', 'r') as file:
-            proxies = file.read().splitlines()
-    except Exception as e:
-        logger.error(f"加载代理失败: {e}")
-        raise SystemExit("由于加载代理失败而退出")
-
+    
+    # 加载token和对应的代理
+    token_proxy_map = await load_tokens_and_proxies()
+    
     # 使用线程池并发处理账户
     with ThreadPoolExecutor(max_workers=3000) as executor:
         futures = []
-        for token in tokens:
+        for token, proxies in token_proxy_map.items():
             futures.append(executor.submit(process_account, token, proxies))
 
         for future in futures:
@@ -217,39 +217,39 @@ async def main():
 def dailyclaim():
     """执行每日签到"""
     try:
-        with open('tokens.txt', 'r') as file:
-            local_data = file.read().splitlines()
-            for tokenlist in local_data:
-                url = f"https://api.nodepay.org/api/mission/complete-mission?"
-                headers = {
-                    "Authorization": f"Bearer {tokenlist}",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                    "Content-Type": "application/json",
-                    "Origin": "https://app.nodepay.ai",
-                    "Referer": "https://app.nodepay.ai/"
-                }
-                
-                data = {
-                    "mission_id":"1"
-                }
+        with open('proxies.txt', 'r') as file:
+            for line in file:
+                parts = line.strip().split(',')
+                if len(parts) >= 1:
+                    token = parts[0]
+                    url = f"https://api.nodepay.org/api/mission/complete-mission?"
+                    headers = {
+                        "Authorization": f"Bearer {token}",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                        "Content-Type": "application/json",
+                        "Origin": "https://app.nodepay.ai",
+                        "Referer": "https://app.nodepay.ai/"
+                    }
+                    
+                    data = {
+                        "mission_id":"1"
+                    }
 
-                response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
-                
-                if response.status_code != 200:
-                    logger.error(f"请求失败,状态码: {response.status_code}")
-                    continue
+                    response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
+                    
+                    if response.status_code != 200:
+                        logger.error(f"请求失败,状态码: {response.status_code}")
+                        continue
 
-                logger.debug(f"响应内容: {response.content}")
-
-                try:
-                    is_success = response.json().get('success')
-                    if is_success == True:
-                        logger.info('领取奖励成功!')
-                        logger.info(response.json())
-                    else:
-                        logger.info('奖励已领取或出现错误!')
-                except ValueError as e:
-                    logger.error(f"解析JSON响应失败: {e}")
+                    try:
+                        is_success = response.json().get('success')
+                        if is_success == True:
+                            logger.info(f'Token {token[:8]}... 领取奖励成功!')
+                            logger.info(response.json())
+                        else:
+                            logger.info(f'Token {token[:8]}... 奖励已领取或出现错误!')
+                    except ValueError as e:
+                        logger.error(f"解析JSON响应失败: {e}")
     except requests.exceptions.RequestException as e:
         print(f"错误: {e}")
 
