@@ -73,18 +73,11 @@ email3@example.com:password3
 # 购买 API 密钥
 - https://2captcha.com/?from=24367073
 
-```
-git clone https://github.com/AirdropFamilyIDN-V2-0/nodepay.git
-```
-```
-cd nodepay
-```
-```
-cd get_token
-```
-```
-python get_token.py
-```
 
-# 源代码来自：https://github.com/im-hanzou
-
+# 源代码来自：
+```
+https://github.com/im-hanzou
+```
+```
+https://github.com/AirdropFamilyIDN-V2-0/nodepay/tree/main
+```
