@@ -24,7 +24,11 @@ cd nodepay
 pip install -r requirements.txt
 ```
 ```
-python run_proxy.py
+python run.py
+```
+Linux
+```
+python3 run.py
 ```
 
 # 在 tokens.txt 中填入你的 Nodepay 令牌
